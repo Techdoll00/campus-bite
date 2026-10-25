@@ -69,6 +69,20 @@ npm run preview
 
 推送到 `main` 后由 `.github/workflows/deploy.yml` 自动构建并发布到 GitHub Pages。`vite.config.ts` 中的 `base` 与仓库名保持一致。
 
+### 链接稳定性约定
+
+提交给面试官的链接固定为：
+
+**https://techdoll00.github.io/campus-bite/**
+
+后续迭代必须遵守以下约束，避免链接失效：
+
+- 仓库名保持 `campus-bite`，不重命名、不转移、不删除
+- 不添加 `CNAME` 或自定义域名，保持 GitHub Pages 默认域名
+- `vite.config.ts` 的 `base` 保持 `/campus-bite/`
+- 仓库保持 **Public**，Pages 的 Source 保持 **GitHub Actions**
+- 所有更新直接 push 到 `main`，自动部署到同一域名
+
 ## 数据说明
 
 食堂、窗口、菜品、点评均为演示数据，与任何真实学校无关。排队人数由时间段与固定随机种子模拟，不代表真实客流。
