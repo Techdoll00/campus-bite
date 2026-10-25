@@ -49,6 +49,10 @@ export function weekLabel(d = new Date()) {
   return ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][d.getDay()]
 }
 
+export function isToday(ts: number) {
+  return new Date(ts).toDateString() === new Date().toDateString()
+}
+
 export function isOpen(canteen: Canteen, d = new Date()) {
   const h = d.getHours() + d.getMinutes() / 60
   if (canteen.id === 'sw') return h >= 10 && h < 23
@@ -369,4 +373,5 @@ export function ratingOf(dish: Dish, mine: Review[]) {
   const total = dish.reviewCount + own.length
   return (base + own.reduce((sum, r) => sum + r.rating, 0)) / total
 }
+
 

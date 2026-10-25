@@ -7,6 +7,7 @@ import {
   currentMeal,
   greeting,
   isOpen,
+  isToday,
   mealContext,
   bestRecommendation,
   pickRecommendation,
@@ -163,7 +164,7 @@ export function HomePage() {
   const tops = weeklyTop(3)
   const riskList = risks(3)
   const newbies = dishes.filter((d) => d.isNew)
-  const todayEaten = eaten.filter((e) => new Date(e.at).toDateString() === new Date().toDateString())
+  const todayEaten = eaten.filter((e) => isToday(e.at))
   const eatenDish = todayEaten[0] ? dishes.find((d) => d.id === todayEaten[0].dishId) : null
 
   useEffect(() => {
@@ -271,6 +272,9 @@ export function HomePage() {
             <div className="alert-list">
               {riskList.map((dish) => {
                 const q = queueFor(dish.stallId)
+                const stall = stallById(dish.stallId)
+                const canteen = canteens.find((c) => c.id === stall.canteenId)
+                const open = canteen ? isOpen(canteen, now) : false
                 return (
                   <button type="button" className="alert-row" key={dish.id} onClick={() => go(`/dish/${dish.id}`)}>
                     <span className="alert-emoji" style={{ background: dish.tone }} aria-hidden="true">
@@ -283,7 +287,9 @@ export function HomePage() {
                       </span>
                       <span className="alert-reason">{dish.risk}</span>
                     </span>
-                    <span className={`queue-pill q-${q.level}`}>{q.people} 人</span>
+                    <span className={`queue-pill ${open ? `q-${q.level}` : 'q-closed'}`}>
+                      {open ? `${q.people} 人` : '打烊'}
+                    </span>
                   </button>
                 )
               })}

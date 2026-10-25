@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { canteens, dishesOfStall, stallsOfCanteen } from '../data'
 import { QUEUE_TEXT, canteenQueue, isOpen, queueFor, walkMinutes } from '../lib'
 import { go } from '../router'
@@ -6,7 +6,12 @@ import { Icon } from '../components/Icons'
 
 export function CanteensPage() {
   const [active, setActive] = useState(canteens[0].id)
-  const now = new Date()
+  const [now, setNow] = useState(() => new Date())
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 60000)
+    return () => window.clearInterval(timer)
+  }, [])
   const canteen = canteens.find((c) => c.id === active)!
   const stallList = stallsOfCanteen(active)
   const queue = canteenQueue(active, now)

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { canteenById, dishById, dishes, stallById } from '../data'
-import { distribution, isOpen, queueFor, ratingOf, reviewsFor, walkMinutes } from '../lib'
+import { distribution, isOpen, isToday, queueFor, ratingOf, reviewsFor, walkMinutes } from '../lib'
 import { go } from '../router'
 import { useStore } from '../store'
 import { FavoriteButton, MiniDish } from '../components/DishCard'
@@ -80,9 +80,7 @@ export function DishPage({ id }: { id?: string }) {
   const open = isOpen(canteen)
   const dist = distribution(dish.rating).slice().reverse()
   const count = dish.reviewCount + mine.length
-  const ateToday = eaten.some(
-    (e) => e.dishId === dish.id && new Date(e.at).toDateString() === new Date().toDateString(),
-  )
+  const ateToday = eaten.some((e) => e.dishId === dish.id && isToday(e.at))
   const similar = dishes
     .filter((d) => d.stallId !== dish.stallId && d.stallId.startsWith(`${canteen.id}-`) && d.id !== dish.id)
     .sort((a, b) => b.rating - a.rating)
@@ -155,7 +153,9 @@ export function DishPage({ id }: { id?: string }) {
                 <span className="num price">¥{dish.price}</span>
                 <span>
                   <Icon name="clock" size={14} />{' '}
-                  {open ? `排队 ${q.people} 人 · 约 ${q.wait} 分钟` : '现在已打烊'}
+                  {open
+                    ? `排队 ${q.people} 人 · 约 ${q.wait} 分钟`
+                    : `明天 ${canteen.hours.split('–')[0].trim()} 开门`}
                 </span>
                 <span>
                   <Icon name="pin" size={14} /> 步行 {walkMinutes(canteen.id)} 分钟

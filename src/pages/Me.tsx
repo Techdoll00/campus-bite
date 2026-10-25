@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AVOID_OPTIONS, SPICE_LABEL, dishById, dishes } from '../data'
+import { isToday } from '../lib'
 import { go } from '../router'
 import { useStore } from '../store'
 import { DishRow } from '../components/DishCard'
@@ -11,7 +12,7 @@ export function MePage() {
   const [editing, setEditing] = useState(false)
 
   const favDishes = favorites.map((id) => dishById(id)).filter((d) => !!d)
-  const todayEaten = eaten.filter((e) => new Date(e.at).toDateString() === new Date().toDateString())
+  const todayEaten = eaten.filter((e) => isToday(e.at))
   const profileLine = `你能吃${SPICE_LABEL[prefs.spice]}，人均不超过 ¥${prefs.budget}，${
     prefs.avoid.length ? `不吃${prefs.avoid.join('、')}` : '暂时没有忌口'
   }。推荐时已按这个条件过滤。`

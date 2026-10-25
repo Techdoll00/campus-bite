@@ -1156,6 +1156,11 @@ ul {
   color: #f39880;
 }
 
+.alert-card .queue-pill.q-closed {
+  color: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .queue-pill.q-low {
   color: var(--leaf);
   background: var(--leaf-soft);
@@ -3127,6 +3132,24 @@ ul {
   font-size: 10px;
   color: var(--muted);
   margin-top: 9px;
+}
+
+@media (min-width: 721px) {
+  .sheet-overlay {
+    align-items: center;
+    padding: 24px;
+  }
+
+  .sheet {
+    border-radius: 24px;
+    max-height: 88vh;
+    padding-top: 18px;
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.5);
+  }
+
+  .sheet-handle {
+    display: none;
+  }
 }
 
 /* ---------- toast ---------- */
